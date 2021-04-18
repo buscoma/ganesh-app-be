@@ -1,37 +1,37 @@
 let jwt = require("jsonwebtoken");
-let PlayerService = require("../player")
+let userService = require("../user")
 
 exports.authenticateJWT = function (req, res, next) {
 	const authHeader = req.headers.authorization;
 	if (authHeader) {
 		const token = authHeader.split(" ")[1];
-		let secret = process.env.PLAYER_JWT_SECRET
-		jwt.verify(token, secret, async function (err, player) {
+		let secret = process.env.USER_JWT_SECRET
+		jwt.verify(token, secret, async function (err, user) {
 			if (err) {
-				return res.sendStatus(403);
+				return res.status(401).json({ message: "Unauthorized" });
 			}
-			PlayerService.PlayerLastToken(player).then(
-				playerLastToken => {
-					if (playerLastToken == token){
-						req.player = player;
+			userService.userLastToken(user).then(
+				userLastToken => {
+					if (userLastToken == token){
+						req.user = user;
 						next();
 					}else {
-						res.sendStatus(401);
+						res.status(401).json({ message: "Unauthorized" });
 					}
 				}
 			)
 		});
 	}else {
-		res.sendStatus(401);
+		res.status(401).json({ message: "Unauthorized" });
 	}
 };
 
-exports.playerJWT = function (player) {
+exports.userJWT = function (user) {
 	return jwt.sign(
 		{
-			id: player.id,
+			id: user.id,
 		},
-		process.env.PLAYER_JWT_SECRET,
+		process.env.USER_JWT_SECRET,
 		{
 			expiresIn: "1h",
 		}

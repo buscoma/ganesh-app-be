@@ -1,24 +1,14 @@
 const express = require("express");
-const comprensionLectora = require("./api/games/comprensionLectora");
-const juegoNumAPalabra = require("./api/games/juegoNumAPalabra");
-const palabrasPerdidas = require("./api/games/palabrasPerdidas");
-const burgerBuilder = require("./api/games/burgerBuilder");
-const secuenciaNumeros = require("./api/games/secuenciaNumeros");
-const palabrasCorrectas = require("./api/games/palabrasCorrectas");
-const player = require("./api/player");
+const pluralsight = require("./api/source/pluralsight");
+const user = require("./api/user");
 const router = express.Router();
 
-// player api
-router.use("/player", player);
+// user api
+router.use(user);
 
-// games api
+// source api
 [
-	comprensionLectora,
-	juegoNumAPalabra,
-	palabrasPerdidas,
-	burgerBuilder,
-	secuenciaNumeros,
-	palabrasCorrectas,
-].forEach((juego) => router.use("/games", juego));
+	pluralsight,
+].forEach((source) => router.use("/source", source));
 
 module.exports = router;

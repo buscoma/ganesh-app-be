@@ -27,11 +27,6 @@ app.use("/api", apiRouter);
 app.use(healtCheck);
 
 
-
-
-//Serves all the request which includes /images in the url from Images folder
-app.use('/images',express.static(__dirname + '/images'));
-
 // Database connection
 mongoose.Promise = bluebird;
 let url = process.env.DATABASE;
@@ -43,16 +38,16 @@ let opts = {
 mongoose
 	.connect(url, opts)
 	.then(() => {
-		console.log(`Succesfully Connected to theMongodb Database..`);
+		console.log(`Succesfully Connected to Mongo Database..`);
 	})
 	.catch((e) => {
-		console.log(`Error Connecting to the Mongodb Database...`),
+		console.log(`Error Connecting to Mongo Database...`),
 			console.log(e);
 	});
 
 var port = process.env.PORT || 8080;
 app.listen(port, () => {
-	console.log("Servidor iniciado en el puerto ", port);
+	console.log("Server started on port: ", port);
 });
 
 module.exports = app;
