@@ -15,7 +15,7 @@ exports.getAllCourses = async function (req, res, _) {
 		var lista_cursos = await PluralsightController.getCourses();
 		return res.json({
 			cursos: lista_cursos,
-			total: length(courses)
+			total: lista_cursos.length
 		});
 	} catch (e) {
 		return res.status(400).json({ message: e.message });
@@ -23,7 +23,7 @@ exports.getAllCourses = async function (req, res, _) {
 };
 
 exports.updateCourses = async function (req, res, _) {
-	var courses_to_update = req.body.nivel ? req.query.nivel : [];
+	var courses_to_update = req.body ? req.body : [];
 	try {
 		await PluralsightController.updateCourses(courses_to_update);
 		return res.json({ message: "Success" });
