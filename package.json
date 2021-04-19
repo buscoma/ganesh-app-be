@@ -17,9 +17,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.12.4",
     "mongoose-paginate": "^5.0.3",
-    "morgan": "~1.9.0"
-  },
-  "devDependencies": {
+    "morgan": "~1.9.0",
     "nodemon": "^1.19.4"
   }
 }
