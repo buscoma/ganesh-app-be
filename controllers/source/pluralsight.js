@@ -31,3 +31,13 @@ exports.updateCourses = async function (req, res, _) {
 		return res.status(400).json({ message: e.message });
 	}
 };
+
+exports.deleteCourse = async function (req, res, _) {
+	var id = req.params.id;
+	try {
+		await PluralsightController.deleteCourse(id);
+		return res.json({ message: "Success" });
+	} catch (e) {
+		return res.status(400).json({ message: e.message });
+	}
+};

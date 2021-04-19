@@ -21,4 +21,10 @@ router.post(
 	PluralsightController.updateCourses
 );
 
+router.delete(
+	"/pluralsight/:id",
+	jwt.authenticateJWT,
+	PluralsightController.deleteCourse
+);
+
 module.exports = router;

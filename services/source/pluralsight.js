@@ -7,6 +7,7 @@ exports.getCourse = async function (id) {
 	try {
 		return await Pluralsight.find(query);
 	} catch (e) {
+		console.log(e)
 		throw Error("Error trying to find course");
 	}
 };
@@ -15,6 +16,7 @@ exports.getCourses = async function () {
 	try {
 		return await Pluralsight.find({}, {_id: 0});
 	} catch (e) {
+		console.log(e)
 		throw Error("Error trying to find course");
 	}
 };
@@ -24,6 +26,15 @@ exports.updateCourses = async function (courses_to_update) {
 		for(var course of courses_to_update){
 			await Pluralsight.updateOne({id: course.id}, {$set: course}, {upsert: true})
 		}
+	} catch (e) {
+		console.log(e)
+		throw Error("Error trying to update a course");
+	}
+};
+
+exports.deleteCourse = async function (id) {
+	try {
+		await Pluralsight.deleteOne({id: id});
 	} catch (e) {
 		console.log(e)
 		throw Error("Error trying to update a course");
