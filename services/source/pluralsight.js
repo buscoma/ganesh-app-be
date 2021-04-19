@@ -5,16 +5,18 @@ exports.getCourse = async function (id) {
 		id: id,
 	};
 	try {
-		return await Pluralsight.find(query);
+		return await Pluralsight.find(query, {_id: 0, __v: 0});
 	} catch (e) {
 		console.log(e)
 		throw Error("Error trying to find course");
 	}
 };
 
-exports.getCourses = async function () {
+exports.getCourses = async function (limit, offset) {
 	try {
-		return await Pluralsight.find({}, {_id: 0});
+		var data =  await Pluralsight.find({}, {_id: 0, __v: 0}).skip(offset).limit(limit)
+		var total = await Pluralsight.countDocuments();
+		return {data: data, total: total};
 	} catch (e) {
 		console.log(e)
 		throw Error("Error trying to find course");

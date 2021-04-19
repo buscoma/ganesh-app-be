@@ -5,16 +5,15 @@ var mongoose = require("mongoose");
 var healtCheck = require("./routes/healthCheck");
 var apiRouter = require("./routes/api");
 var bluebird = require("bluebird");
-
 const dotenv = require("dotenv");
-dotenv.config();
 
+
+// APP configurations
+dotenv.config();
 var app = express();
 app.use(express.static('public'));
-
 let cors = require("cors");
 app.use(cors());
-
 app.use(logger("combined"));
 app.use(express.json());
 app.use(
@@ -23,9 +22,17 @@ app.use(
 	})
 );
 app.use(cookieParser());
+
+// Endpoint registration
 app.use("/api", apiRouter);
 app.use(healtCheck);
 
+app.get("/", function (_, res, _) {
+	const listEndpoints = require('express-list-endpoints')
+	var endpoints = listEndpoints(app)
+	endpoints.forEach(function(v){ delete v.middleware });
+	return res.json(endpoints)
+});
 
 // Database connection
 mongoose.Promise = bluebird;
@@ -45,9 +52,20 @@ mongoose
 			console.log(e);
 	});
 
+
+// App port
 var port = process.env.PORT || 8080;
 app.listen(port, () => {
 	console.log("Server started on port: ", port);
 });
+
+
+
+// Croned modules
+
+// const cron = require('node-cron');
+// var Pluralsight = require('./cronjobs/pluralsight')
+// cron.schedule('0 0 * * *', Pluralsight.runCron);
+
 
 module.exports = app;

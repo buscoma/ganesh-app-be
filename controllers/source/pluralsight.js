@@ -4,18 +4,25 @@ exports.getCourse = async function (req, res, _) {
 	var id = req.params.id;
 	try {
 		var course = await PluralsightController.getCourse(id);
-		return res.json(course);
+		if (course.length != 0){
+			return res.json(course);
+		} else {
+			return res.status(404).json({ message: "Not found"});
+		}
 	} catch (e) {
 		return res.status(400).json({ message: e.message });
 	}
 };
 
 exports.getAllCourses = async function (req, res, _) {
+	var limit = parseInt(req.query.limit ? req.query.limit : 100);
+	var offset = parseInt(req.query.offset ? req.query.offset : 0);
 	try {
-		var lista_cursos = await PluralsightController.getCourses();
+		var info = await PluralsightController.getCourses(limit, offset);
 		return res.json({
-			cursos: lista_cursos,
-			total: lista_cursos.length
+			courses: info.data,
+			fetched: info.data.length,
+			total: info.total
 		});
 	} catch (e) {
 		return res.status(400).json({ message: e.message });

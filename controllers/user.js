@@ -21,7 +21,7 @@ exports.signUpSignIn = async function (req, res, _) {
 };
 
 exports.logout = async function (req, res, _) {
-	await UserService.UserLogout(req.user)
+	await UserService.userLogout(req.user)
 	return res.json({ message: "Success" })
 }
 

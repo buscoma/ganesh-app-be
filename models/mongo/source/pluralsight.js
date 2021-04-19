@@ -6,7 +6,7 @@ var PluralsightSchema = new mongoose.Schema({
 		required: [true, 'Course must have an id'],
 		unique: true
 	},
-	titulo: {
+	title: {
 		type: String,
 		required: [true, 'Course must have a title']
 	},
